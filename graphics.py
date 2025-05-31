@@ -23,5 +23,3 @@ class Window:
 
     def draw_line(self, line, fill_color="black"):
         line.draw(self.__canvas, fill_color)
-
-
