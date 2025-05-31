@@ -26,7 +26,7 @@ def main():
 
     #maze = Maze(0, 0, 20, 30, 24, 24, win)
 
-    maze = Maze(0, 0, 2, 3, 50, 50, win)
+    maze = Maze(5, 5, 2, 3, 50, 50, win)
 
     win.wait_for_close()
 
