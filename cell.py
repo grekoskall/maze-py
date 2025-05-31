@@ -1,3 +1,5 @@
+from point import Point
+from line import Line
 
 class Cell:
     def __init__(self, window):
@@ -11,6 +13,28 @@ class Cell:
         self.__y2 = -1
         self.__win = window
 
-    def draw(self):
+    def draw(self, x1, y1, x2, y2):
+        self.__x1 = x1
+        self.__x2 = x2
+        self.__y1 = y1
+        self.__y2 = y2
+        point1 = Point(x1, y1)
+        point2 = Point(x1, y2)
+        point3 = Point(x2, y1)
+        point4 = Point(x2, y2)
+        if self.has_left_wall == True:
+            left_line = Line(point1, point2)
+            self.__win.draw_line(left_line)
+        if self.has_right_wall == True:
+            right_line = Line(point3, point4)
+            self.__win.draw_line(right_line)
+        if self.has_top_wall == True:
+            top_line = Line(point1, point3)
+            self.__win.draw_line(top_line)
+        if self.has_bottom_wall == True:
+            bottom_line = Line(point2, point4)
+            self.__win.draw_line(bottom_line)
+
+    #def draw_move(self, to_cell, undo=False):
 
 
