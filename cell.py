@@ -2,7 +2,7 @@ from point import Point
 from line import Line
 
 class Cell:
-    def __init__(self, window):
+    def __init__(self, window=None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -24,16 +24,20 @@ class Cell:
         point4 = Point(x2, y2)
         if self.has_left_wall == True:
             left_line = Line(point1, point2)
-            self.__win.draw_line(left_line)
+            if self.__win != None:
+                self.__win.draw_line(left_line)
         if self.has_right_wall == True:
             right_line = Line(point3, point4)
-            self.__win.draw_line(right_line)
+            if self.__win != None:
+                self.__win.draw_line(right_line)
         if self.has_top_wall == True:
             top_line = Line(point1, point3)
-            self.__win.draw_line(top_line)
+            if self.__win != None:
+                self.__win.draw_line(top_line)
         if self.has_bottom_wall == True:
             bottom_line = Line(point2, point4)
-            self.__win.draw_line(bottom_line)
+            if self.__win != None:
+                self.__win.draw_line(bottom_line)
 
     def draw_move(self, to_cell, undo=False):
         my_center_x = (self.__x1 + self.__x2) / 2
@@ -43,10 +47,11 @@ class Cell:
         point_start = Point(my_center_x, my_center_y)
         point_end = Point(to_center_x, to_center_y)
         line = Line(point_start, point_end)
-        if undo == False:
-            self.__win.draw_line(line, "red")
-        else:
-            self.__win.draw_line(line, "gray")
+        if self.__win != None:
+            if undo == False:
+                self.__win.draw_line(line, "red")
+            else:
+                self.__win.draw_line(line, "gray")
     
 
 
