@@ -12,12 +12,18 @@ def main():
 
     #win.draw_line(line_a, "black")
 
-    cell = Cell(win)
+    cell1 = Cell(win)
+    cell2 = Cell(win)
+    cell3 = Cell(win)
 
-    cell.draw(0, 0, 10, 10)
-    cell.draw(10, 10, 20, 20)
+    cell1.draw(50, 100, 100, 150)
+    cell2.draw(150, 100, 200, 150)
+    cell3.draw(50, 200, 100, 250)
 
-    cell.draw(50, 100, 100, 200)
+
+    cell1.draw_move(cell2)
+
+    cell1.draw_move(cell3, True)
 
     win.wait_for_close()
 

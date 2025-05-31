@@ -35,6 +35,18 @@ class Cell:
             bottom_line = Line(point2, point4)
             self.__win.draw_line(bottom_line)
 
-    #def draw_move(self, to_cell, undo=False):
+    def draw_move(self, to_cell, undo=False):
+        my_center_x = (self.__x1 + self.__x2) / 2
+        my_center_y = (self.__y1 + self.__y2) / 2
+        to_center_x = (to_cell.__x1 + to_cell.__x2) / 2
+        to_center_y = (to_cell.__y1 + to_cell.__y2) / 2
+        point_start = Point(my_center_x, my_center_y)
+        point_end = Point(to_center_x, to_center_y)
+        line = Line(point_start, point_end)
+        if undo == False:
+            self.__win.draw_line(line, "red")
+        else:
+            self.__win.draw_line(line, "gray")
+    
 
 
