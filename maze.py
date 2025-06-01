@@ -25,6 +25,8 @@ class Maze:
         self.__break_entrance_and_exit()
         if seed != None:
             random.seed(seed)
+        self.__break_walls_r(0,0)
+        self.__reset_cells_visited()
 
     def __create_cells(self):
         self.__cells = [[0 for j in range(self.__num_rows)] for i in range(self.__num_cols)]
@@ -53,41 +55,66 @@ class Maze:
         self.__draw_cell(self.__num_cols-1, self.__num_rows - 1)
 
     def __break_walls_r(self, i, j):
-        self.__cells[i, j].visited = True
+        self.__cells[i][j].visited = True
+        if i == self.__num_cols - 1 and j == self.__num_rows - 1:
+            return 1
         while True:
             cells_to_visit = []
-            if i+1 < self.__num_cols - 1 and self.__cells[i+1, j].visited == False:
+            #print(f"My choice {i}, {j}")
+            if i+1 < self.__num_cols and self.__cells[i+1][j].visited == False:
                 cells_to_visit.append("right")
-            if j+1 < self.__num_rows - 1 and self.__cells[i, j+1].visited == False:
-                cells_to_visit.append("down")
-            if i-1 > 0 and self.__cells[i-1, j].visited == False:
+            if j+1 < self.__num_rows and self.__cells[i][j+1].visited == False:
+                cells_to_visit.append("bottom")
+            if i-1 > 0 and self.__cells[i-1][j].visited == False:
                 cells_to_visit.append("left")
-            if j-1 > 0 and self.__cells[i, j-1].visited == False:
+            if j-1 > 0 and self.__cells[i][j-1].visited == False:
                 cells_to_visit.append("top")
+            #print(f"My options: {cells_to_visit}")
             if len(cells_to_visit) == 0:
-                self.__cells[i, k].draw()
-                return
-            direction = random.choice(cells_to_visit)
-            if direction == "right":
-                self.__cells[i, j].has_right_wall = False
                 self.__draw_cell(i, j)
-                self.__cells[i+1, j].has_left_wall = False
-                self.__draw_cell(i+1, j)
-                self.__break_walls_r(i+1, j)
-            elif direction == "left":
-                self.__cells[i, j].has_left_wall = False
-                self.__draw_cell(i, j)
-                self.__cells[i-1, j].has_right_wall = False
-                self.__draw_cell(i-1, j)
-                self.__break_walls_r(i-1, j)
-            elif direction == "top":
-                self.__cells[i, j].has_top_wall = False
-                self.__draw_cell(i, j)
-                self.__cells[i, j-1].has_bottom_wall = False
-                self.__draw_cell(i, j-1)
-                self.__break_walls_r(i, j-1)
-            elif direction == "bottom":
-                self.
-                #TODO
+                return 0
+            while len(cells_to_visit) > 0:
+                direction = random.choice(cells_to_visit)
+                #print(f"I chose: {direction}")
+                cells_to_visit.remove(direction)
+                if direction == "right":
+                    cell = self.__cells[i][j]
+                    self.__cells[i][j].has_right_wall = False
+                    self.__draw_cell(i, j)
+                    self.__cells[i+1][j].has_left_wall = False
+                    self.__draw_cell(i+1, j)
+                    rec = self.__break_walls_r(i+1, j)
+                    if rec != 0:
+                        return 1
+                elif direction == "left":
+                    cell = self.__cells[i][j]
+                    self.__cells[i][j].has_left_wall = False
+                    self.__draw_cell(i, j)
+                    self.__cells[i-1][j].has_right_wall = False
+                    self.__draw_cell(i-1, j)
+                    rec = self.__break_walls_r(i-1, j)
+                    if rec != 0:
+                        return 1
+                elif direction == "top":
+                    cell = self.__cells[i][j]
+                    self.__cells[i][j].has_top_wall = False
+                    self.__draw_cell(i, j)
+                    self.__cells[i][j-1].has_bottom_wall = False
+                    self.__draw_cell(i, j-1)
+                    rec = self.__break_walls_r(i, j-1)
+                    if rec != 0:
+                        return 1
+                elif direction == "bottom":
+                    cell = self.__cells[i][j]
+                    self.__cells[i][j].has_bottom_wall = False
+                    self.__draw_cell(i, j)
+                    self.__cells[i][j+1].has_top_wall = False
+                    self.__draw_cell(i, j+1)
+                    rec = self.__break_walls_r(i, j+1)
+                    if rec != 0:
+                        return 1
 
-            
+    def __reset_cells_visited(self):
+        for i in range(self.__num_cols):
+            for j in range(self.__num_rows):
+                self.__cells[i][j].visited = False
