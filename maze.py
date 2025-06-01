@@ -52,3 +52,42 @@ class Maze:
         self.__cells[self.__num_cols-1][self.__num_rows - 1].has_bottom_wall = False
         self.__draw_cell(self.__num_cols-1, self.__num_rows - 1)
 
+    def __break_walls_r(self, i, j):
+        self.__cells[i, j].visited = True
+        while True:
+            cells_to_visit = []
+            if i+1 < self.__num_cols - 1 and self.__cells[i+1, j].visited == False:
+                cells_to_visit.append("right")
+            if j+1 < self.__num_rows - 1 and self.__cells[i, j+1].visited == False:
+                cells_to_visit.append("down")
+            if i-1 > 0 and self.__cells[i-1, j].visited == False:
+                cells_to_visit.append("left")
+            if j-1 > 0 and self.__cells[i, j-1].visited == False:
+                cells_to_visit.append("top")
+            if len(cells_to_visit) == 0:
+                self.__cells[i, k].draw()
+                return
+            direction = random.choice(cells_to_visit)
+            if direction == "right":
+                self.__cells[i, j].has_right_wall = False
+                self.__draw_cell(i, j)
+                self.__cells[i+1, j].has_left_wall = False
+                self.__draw_cell(i+1, j)
+                self.__break_walls_r(i+1, j)
+            elif direction == "left":
+                self.__cells[i, j].has_left_wall = False
+                self.__draw_cell(i, j)
+                self.__cells[i-1, j].has_right_wall = False
+                self.__draw_cell(i-1, j)
+                self.__break_walls_r(i-1, j)
+            elif direction == "top":
+                self.__cells[i, j].has_top_wall = False
+                self.__draw_cell(i, j)
+                self.__cells[i, j-1].has_bottom_wall = False
+                self.__draw_cell(i, j-1)
+                self.__break_walls_r(i, j-1)
+            elif direction == "bottom":
+                self.
+                #TODO
+
+            
